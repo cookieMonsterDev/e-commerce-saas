@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+red=$(tput setaf 1) # ANSI escape code for red color
+reset=$(tput sgr0)  # ANSI escape code to reset color
+
+#Lint test
+npm run lint
+
+#Tests
+#npm run test
+
+#Commit message check
+
+commit_msg=$(git log -1 --pretty=%B)
+
+if ! echo "$commit_msg" | grep -qE "^(feat|fix|chore|docs|test|style|refactor|perf|build|ci|revert)(\(.+?\))?:? .{1,}$
+"; then
+    echo "${red}Error${reset}: Invalid commit format, try: feat(feature): description." >&2
+    exit 1
+fi
+
+if [ ${#commit_msg} -gt 88 ]; then
+    echo "${red}Error${reset}: Invalid commit length. Your commit message is too long." >&2
+    exit 1
+fi
