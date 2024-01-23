@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
+import { cn, constructMetadata } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
+
+import "react-loading-skeleton/dist/skeleton.css";
+import "simplebar-react/dist/simplebar.min.css";
+
+import { Toaster } from "@/components/ui/toaster";
 import Navbar from "@/components/navbar";
 import Providers from "@/components/providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Quill",
-  description:
-    "Quill allows you to have conversetions with any PDF document. Simply upload your file and start asking qestions right away.",
-};
+export const metadata = constructMetadata();
 
 export default function RootLayout({
   children,
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="light">
       <Providers>
         <body
           className={cn(
@@ -27,6 +27,7 @@ export default function RootLayout({
             inter.className
           )}
         >
+          <Toaster />
           <Navbar />
           {children}
         </body>
